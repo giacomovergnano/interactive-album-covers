@@ -1,0 +1,55 @@
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+$red: #FF5A5A;
+$black: #111010;
+$remerge-green: #00a887;
+$remerge-hp-bg: tint( $remerge-green, 85% );
+$remerge-petrol: #3a5a64;
+$yellow: #fffa85;
+
+
+h1 {
+  font-size: 72px;
+  line-height: 1.25em;
+  margin: .5em 0 1em 0;
+}
+
+h2 {
+  font-size: 49px;
+  line-height: 1.25em;
+  margin: .5em 0 1em 0;
+}
+
+h3 {
+  font-size: 42px;
+  line-height: 1.25em;
+  margin: .5em 0 .8em 0;
+}
+
+h4 {
+  font-size: 34px;
+  line-height: 1.25em;
+  margin: .5em 0 1em 0;
+}
+
+h5 {
+  font-size: 32px;
+  line-height: 1.25em;
+  margin: .5em 0 .5em 0;
+}
+
+h6 {
+  font-size: 20px;
+  line-height: 1.25em;
+  margin: .5em 0 .8em 0;
+}
+
+p {
+  line-height: 1.33em;
+}
+
+.p-16 {
+  font-size: 16px;
+}

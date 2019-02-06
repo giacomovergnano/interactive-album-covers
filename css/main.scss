@@ -1,0 +1,88 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@charset "utf-8";
+
+@import
+  "variables",
+  "base",
+  "pages"
+;
+
+body {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   flex-direction: column;
+}
+
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-anti {
+  0%   { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@mixin on-circle($item-count, $circle-size, $item-size) {  
+  position: relative;
+  width:  $circle-size;
+  height: $circle-size;
+  border-radius: 50%;
+  padding: 0; 
+  list-style: none;
+  
+  > * {
+    display: block;
+    position: absolute;
+    top:  50%; 
+    left: 50%;
+    margin: -($item-size / 2);
+    width:  $item-size;
+    height: $item-size;
+  
+    $angle: (360 / $item-count);
+    $rot: 0;
+
+    @for $i from 1 through $item-count {
+      &:nth-of-type(#{$i}) {
+        transform: rotate($rot * 1deg) translate($circle-size / 2) rotate($rot * -1deg);
+      }
+
+      $rot: $rot + $angle;
+    }
+  }
+}
+@for $a from 1 through 50 {
+	.circle-container-#{$a} {
+	  @include on-circle($item-count: 8 * $a, $circle-size: 18em * $a/2, $item-size: 3em);
+
+	  z-index: 90 - $a;
+	  position: absolute;
+	  	@if $a % 2 == 0 {
+          background: red;
+          // animation: spin linear infinite 16s;
+      } @else {
+          background: blue;
+          // animation: spin-anti linear infinite 14s;
+      }
+
+	  li {
+	  	padding: 5px;
+	  	// background-color: tomato;
+	  	border-radius: 50%;
+	  }
+	  img { 
+	    display: block; 
+	    max-width: 100%; 
+	    border-radius: 50%;
+	  }
+	}
+}

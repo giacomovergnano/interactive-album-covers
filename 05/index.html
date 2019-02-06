@@ -1,0 +1,53 @@
+---
+layout: default
+title: Foo Fighters
+page-class: cover-05
+js-folder: "05"
+---
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/css-doodle/0.5.1/css-doodle.min.js"></script>
+
+<script type="text/javascript">
+	document.body.addEventListener('click', function(e) {
+	  e.target.update && e.target.update();
+	})
+</script>
+
+<style type="text/css">
+	css-doodle {
+	  --rule: (
+	    :doodle {
+	      @grid: 9 / 100%;
+	    }
+	    @random(.1) { :after { content: 'Foo Fighters'; color: white; background: #0F2027; @size: 100%; font-size: 1em;} 
+	}
+	    @random(.1) { :after { content: 'The Colour and the Shape'; color: white; background: #0F2027; @size: 100%;font-size: 1em; } }
+	    transform: rotate(
+	      @pick(0, 90deg, 180deg, 270deg)
+	    );
+	    @random (1,9) {
+	    	transition: 1.2s @r(.6s) ease;
+	    	transform: rotate3d(@r(360deg));
+	    }
+	    background-size: 100%;
+	    background-image: @svg(
+	      <svg viewBox="0 0 100 100">
+	        @repeat(40,
+	          <line
+	            stroke-width="@rand(.1, 2)"
+	            stroke="@pick(#ff0000, #00ffff, #0000ff, #fffe00)"
+	            x1="0" x2="@rand(100)"
+	            y1="0" y2="@rand(100)"
+	          />
+	        )
+	      </svg>
+	    ); 
+	  ) 
+	}
+</style>
+
+<div class="container subtract">
+  <div id="cover">
+    <css-doodle use="var(--rule)"></css-doodle>
+  </div>
+</div>
