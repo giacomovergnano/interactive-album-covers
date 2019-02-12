@@ -1,6 +1,3 @@
-/* global createCanvas, mouseIsPressed, fill, mouseX, mouseY, ellipse,
-   windowHeight, windowWidth, cos, sin, random, vec, rndInCirc
-*/
 
 let state, mid, win;
 
@@ -103,7 +100,7 @@ function setup(){
     mouse: null,
     win,
     lightColor: color('rgba(255, 255, 0, 1)'),
-    //cyanColor: color('rgb(0, 180, 180)'),
+    cyanColor: color('rgb(0, 180, 180)'),
     inside: v => v && (v.x>0 && v.x<win.x && v.y>0 && v.y<win.y),
   };
 
@@ -125,6 +122,7 @@ function draw(){
   }
 
   strokeWeight(1);
+  noFill();
   stroke(state.lightColor);
   state.edges.forEach(e => {
     if (p5.Vector.dist(state.verts[e[0]], state.verts[e[1]])<40){

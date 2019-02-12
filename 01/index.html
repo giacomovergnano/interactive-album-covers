@@ -1,0 +1,137 @@
+---
+layout: default
+title: Wolf Alice - Don't Delete the Kisses
+page-class: cover-01
+js-folder: "01"
+---
+
+
+<div class="container">
+  <div id="cover">
+  </div>
+</div>
+<script src="../js/three.js"></script>
+
+<script src="../js/TrackballControls.js"></script>
+<script src="../js/WebGL.js"></script>
+
+<script>
+
+  if ( WEBGL.isWebGLAvailable() === false ) {
+
+    document.body.appendChild( WEBGL.getWebGLErrorMessage() );
+
+  }
+
+  var container;
+
+  var camera, scene, renderer, controls;
+
+  var spheres = [];
+
+  var mouseX = 0;
+  var mouseY = 0;
+  container = document.getElementById( 'cover' );
+
+  var windowHalfX = container.offsetWidth / 2;
+  var windowHalfY = container.offsetHeight / 2;
+
+  
+
+  init();
+  animate();
+
+  function init() {
+
+    camera = new THREE.PerspectiveCamera( 60, container.offsetWidth / container.offsetHeight, 1, 100000 );
+    camera.position.z = 3200;
+    controls = new THREE.TrackballControls( camera );
+    controls.rotateSpeed = 1.2;
+    controls.zoomSpeed = 1.8;
+    controls.panSpeed = 1.2;
+    controls.noZoom = false;
+    controls.noPan = true;
+    controls.staticMoving = true;
+    controls.dynamicDampingFactor = 0.3;
+    controls.keys = [ 65, 83, 68 ];
+    controls.addEventListener( 'change', render );
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.CubeTextureLoader()
+      .setPath( 'img/cube/' )
+      .load( [ '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg' ] );
+
+    var geometry = new THREE.SphereBufferGeometry( 100, 32, 16 );
+    var material = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: scene.background } );
+
+    for ( var i = 0; i < 80; i ++ ) {
+
+      var mesh = new THREE.Mesh( geometry, material );
+
+      mesh.position.x = Math.random() * 10000 - 5000;
+      mesh.position.y = Math.random() * 10000 - 5000;
+      mesh.position.z = Math.random() * 10000 - 5000;
+
+      mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 40;
+
+      scene.add( mesh );
+
+      spheres.push( mesh );
+
+    }
+
+    //
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( container.offsetWidth, container.offsetHeight );
+    container.appendChild( renderer.domElement );
+
+    //
+
+    window.addEventListener( 'resize', onWindowResize, false );
+
+  }
+
+  function onWindowResize() {
+
+    windowHalfX = container.offsetWidth / 2;
+    windowHalfY = container.offsetHeight / 2;
+
+    camera.aspect = container.offsetWidth / container.offsetHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( container.offsetHeight, container.offsetWidth );
+
+  }
+
+  //
+
+  function animate() {
+
+    requestAnimationFrame( animate );
+    controls.update();
+
+    render();
+
+  }
+
+  function render() {
+
+    var timer = 0.0001 * Date.now();
+
+    for ( var i = 0, il = spheres.length; i < il; i ++ ) {
+
+      var sphere = spheres[ i ];
+
+      sphere.position.x = 5000 * Math.cos( timer + i );
+      sphere.position.y = 5000 * Math.sin( timer + i * 1.1 );
+
+    }
+
+
+    renderer.render( scene, camera );
+
+  }
+
+</script>

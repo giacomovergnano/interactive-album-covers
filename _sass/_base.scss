@@ -1,3 +1,5 @@
+///// General styles
+
 html {
   box-sizing: border-box;
   height: 100%;
@@ -24,11 +26,6 @@ body {
 }
 
 
-
-.container.back {
-  margin-bottom: 0;
-  margin-top: 2em;
-}
 .container {
   margin-top: 1em;
   position: relative;
@@ -46,6 +43,8 @@ body {
   box-shadow: 0px 24px 43px 0px rgba(173,179,192,0.45);
 }
 
+//// Cover 02
+
 @keyframes do-levitation {
   0% {
     transform: translate(0, 0);
@@ -58,7 +57,6 @@ body {
   }
 }
 
-///// second
 .cover-02 {
   font-family: 'Cormorant', serif;
   #cover {
@@ -136,6 +134,7 @@ body {
 }
 
 
+//// Cover 03
 .cover-03 { 
   #cover {
     box-shadow: 0px 24px 43px 0px rgba(173,179,192,0.85);
@@ -148,7 +147,7 @@ body {
     color: white;
     position: absolute;
     top: 50%;
-    z-index: 1;
+    z-index: 0;
     font-size: 5rem;
     width: 100%;
     text-align: center;
@@ -162,12 +161,15 @@ body {
     overflow: hidden;
     width: 600px;
     height: 600px;
-    top: 10%;
+    top: 0%;
     left: 50%;
     transform: translateX(-50%);
     box-shadow: 0px 24px 43px 0px rgba(173,179,192,0.45);
   }
 }
+
+
+//// Cover 04
 .cover-04 {
   canvas {
     position: absolute;
@@ -187,6 +189,7 @@ body {
   }
 }
 
+//// Cover 05
 .cover-05 {
   #cover {
     background: #0F2027;
@@ -194,14 +197,33 @@ body {
   }
 }
 
+//// Cover 06
 .cover-06 {
   #cover {
     background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+    &:after {
+      font-family: 'Inconsolata', monospace;
+      content: "The National";
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      text-align: center;
+      color: #485563;
+      z-index: 1;
+      height: 6rem;
+      width: 6rem;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      line-height: 6rem;
+      font-size: .8rem;
+    }
   }
   #defaultCanvas0 {
     border: 1px solid #ffff00;
     top: 0;
     left: 0;
     position: relative;
+    z-index: 0;
   }
 }
