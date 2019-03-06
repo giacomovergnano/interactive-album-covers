@@ -1,0 +1,146 @@
+---
+layout: default
+title: 
+page-class: cover-09
+js-folder: "09"
+---
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+	$(document).on('mousemove', function(e){
+	    $('#mouse').css({
+	       left:  e.pageX,
+	       top:   e.pageY
+	    });
+	});
+	var ge1doot = ge1doot || {};
+	ge1doot.Canvas = function()
+	{  
+		"use strict";
+		this.elem = document.createElement("canvas");
+		document.body.appendChild(this.elem);
+		this.elem.onselectstart = function() { return false; }
+		this.elem.ondrag = function() { return false; }
+		this.ctx = this.elem.getContext("2d");
+		this.pointer = {
+			x: 0,
+			y: 0,
+			isDown: false,
+			down: null,
+			up: null,
+			move: null
+		}
+		this.down = function(e, touch)
+		{
+			e.preventDefault();
+			var pointer = touch ? e.touches[0] : e;
+			(!touch && document.setCapture) && document.setCapture();
+			this.pointer.x = pointer.clientX;
+			this.pointer.y = pointer.clientY;
+			this.pointer.isDown = true;
+			this.pointer.down && this.pointer.down();
+		}
+		this.up = function(e, touch)
+		{
+			e.preventDefault();
+			(!touch && document.releaseCapture) && document.releaseCapture();
+			this.pointer.isDown = false;
+			this.pointer.up && this.pointer.up();
+
+		}
+		this.move = function(e, touch)
+		{
+			e.preventDefault();
+			var pointer = touch ? e.touches[0] : e;
+			(!touch && document.setCapture) && document.setCapture();
+			this.pointer.x = pointer.clientX;
+			this.pointer.y = pointer.clientY;
+			this.pointer.move && this.pointer.move();
+		}
+		this._resize = function()
+		{
+			var w = this.elem.offsetWidth * 1;
+			var h = this.elem.offsetHeight * 1;
+			if (w != this.width || h != this.height)
+			{
+				this.width = this.elem.width = w;
+				this.height = this.elem.height = h;
+				this.resize && this.resize();
+			}
+		}
+		window.addEventListener('resize', this._resize.bind(this), false);
+		this._resize();
+		if ('ontouchstart' in window)
+		{
+			this.elem.ontouchstart = function(e) { this.down(e, true); }.bind(this);
+			this.elem.ontouchmove  = function(e) { this.move(e, true); }.bind(this);
+			this.elem.ontouchend   = function(e) { this.up(e, true);   }.bind(this);
+		}
+		document.addEventListener("mousedown", function(e) { this.down(e, false); }.bind(this), true);
+		document.addEventListener("mousemove", function(e) { this.move(e, false); }.bind(this), true);
+		document.addEventListener("mouseup", function(e)   { this.up(e, false);   }.bind(this), true);
+	}
+
+</script>
+
+<script type="text/javascript">
+	
+	! function() {
+			"use strict"; 
+			var canvas = new ge1doot.Canvas();
+			var ctx = canvas.ctx;
+			var pointer = canvas.pointer
+			var blobs = [],
+					Ni = 98,
+					rad = 100;
+			for (var i = 0; i < Ni; i++) {
+					blobs.push(
+							new Blob(
+									rad * Math.cos((2 * Math.PI) / Ni * i),
+									rad * Math.sin((2 * Math.PI) / Ni * i)
+							)
+					);
+			}
+
+			function Blob(x, y) {
+					this.blob = document.createElement('canvas');
+					this.blob.width = this.blob.height = rad * 2;
+					var ict = this.blob.getContext('2d');
+					ict.fillStyle = "#f00";
+					ict.arc(rad, rad, rad, 0, 2 * Math.PI);
+					ict.fill();
+					this.x = x;
+					this.y = y;
+					this.x0 = x;
+					this.y0 = y;
+					this.r = rad * rad * 1;
+			}
+			Blob.prototype.anim = function() {
+					var dx = pointer.x - this.x - canvas.width * 0.5;
+					var dy = pointer.y - this.y - canvas.height * 0.5;
+					var d = Math.sqrt(dx * dx + dy * dy);
+					this.x = this.x - this.r / d * (dx / d) + (this.x0 - this.x) * 0.5;
+					this.y = this.y - this.r / d * (dy / d) + (this.y0 - this.y) * 0.5;
+					ctx.drawImage(
+							this.blob,
+							canvas.width * 0.5 + this.x - rad,
+							canvas.height * 0.5 + this.y - rad
+					);
+			}
+
+			function loop(el) {
+					el.anim();
+			}
+
+			function run() {
+					requestAnimationFrame(run);
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					blobs.forEach(loop);
+			}
+			pointer.y = 10000;
+			run();
+	}();
+</script>
+
+<div id="mouse">
+	WHO ELSE
+</div>
